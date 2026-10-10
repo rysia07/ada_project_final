@@ -1,0 +1,11 @@
+name = "ada_projekt"
+description = ""
+version = "0.1.0-dev"
+
+authors = ["Rysia"]
+maintainers = ["Rysia <example@example.com>"]
+licenses = "GPL-3.0-or-later WITH GCC-exception-3.1"
+website = ""
+tags = []
+
+executables = ["ada_projekt"]

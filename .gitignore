@@ -1,0 +1,8 @@
+obj/
+bin/
+.gnatstudio/
+*.o
+*.ali
+*.exe
+.DS_Store
+Thumbs.db
