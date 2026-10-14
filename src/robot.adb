@@ -9,6 +9,7 @@ package body robot is
 -- receive package
 -- wait for some time to move the package
 -- wait for new package / idle
+
    current_id : Integer;
    current_amount : Integer;
    current_jam_type: Ada.Strings.Unbounded.Unbounded_String;
@@ -21,14 +22,14 @@ package body robot is
                current_id := id;
                current_amount := amount;
                current_jam_type := jam_type;
-               Ada.Text_IO.Put_Line("Przyjęto " & Integer'Image(amount) & " sztuk towaru");
+               Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " przyjął" & Integer'Image(amount) & " sztuk towaru");
             end TransferPackage;
             Ada.Text_IO.Put_Line("Towar jedzie do magazynu");
             delay 3.0;
             magazyn.Take(current_id, current_amount, current_jam_type);
             Ada.Text_IO.Put_Line("Dostarczono towar do magazynu");
             stupid_state := magazyn.Check_state;
-            Ada.Text_IO.Put_Line("Ten robot jest ponownie wolny");
+            Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
          or
             delay 3.0;
             Ada.Text_IO.Put_Line("No gdzie ja mam kurwa tą pracę");

@@ -9,9 +9,9 @@ procedure Ada_projekt is
    State : Integer;
    Jam_Type : Ada.Strings.Unbounded.Unbounded_String;
 
-   robot1 : robot.robot_type;
-   robot2 : robot.robot_type;
-   robot3 : robot.robot_type;
+   robot1 : robot.robot_type(1);
+   robot2 : robot.robot_type(2);
+   robot3 : robot.robot_type(3);
 begin
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
    robot1.TransferPackage(id => 1, amount => 10, jam_type => Jam_Type);
