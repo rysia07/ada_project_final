@@ -2,14 +2,21 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with magazyn;
+with robot;
 
 
 procedure Ada_projekt is
    State : Integer;
    Jam_Type : Ada.Strings.Unbounded.Unbounded_String;
+
+   robot1 : robot.robot_type;
+   robot2 : robot.robot_type;
+   robot3 : robot.robot_type;
 begin
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
-   magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
+   robot1.TransferPackage(id => 1, amount => 10, jam_type => Jam_Type);
+   robot2.TransferPackage(id => 2, amount => 69, jam_type => Jam_Type);
+   --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
    State := magazyn.Check_state;
    --     type Date is record
    --        Day : Integer range 1 .. 31;
