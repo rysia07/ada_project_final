@@ -22,12 +22,12 @@ package body robot is
                current_id := id;
                current_amount := amount;
                current_jam_type := jam_type;
-               Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " przyjął" & Integer'Image(amount) & " sztuk towaru");
+               Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " przyjął" & Integer'Image(amount) & " sztuk towaru " & Ada.Strings.Unbounded.To_String(jam_type));
             end TransferPackage;
-            Ada.Text_IO.Put_Line("Towar jedzie do magazynu");
+            Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jedzie do magazynu");
             delay 3.0;
             magazyn.Take(current_id, current_amount, current_jam_type);
-            Ada.Text_IO.Put_Line("Dostarczono towar do magazynu");
+            Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
             stupid_state := magazyn.Check_state;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
          or
