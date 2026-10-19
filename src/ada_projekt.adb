@@ -14,7 +14,7 @@ procedure Ada_projekt is
    robot3 : robot.robot_type(3);
 begin
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
-   robot1.TransferPackage(id => 1, amount => 10, jam_type => Jam_Type);
+   robot1.TransferPackage(id => 1, amount => 40, jam_type => Jam_Type);
    robot2.TransferPackage(id => 2, amount => 69, jam_type => Jam_Type);
    --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
    State := magazyn.Check_state;
@@ -46,7 +46,5 @@ begin
    --        Put_Line("Hello Ada!" & Integer'Image(Meow));
    --     end if;
    --     Put_Line(Integer'Image(Test.Day) & Integer'Image(Test.Year));
-
-
 
 end Ada_projekt;
