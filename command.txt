@@ -1,1 +1,1 @@
-gcc -c ada_projekt.adb magazyn.adb robot.adb | gnatbind ada_projekt magazyn robot | gnatmake ada_projekt
+gcc -c ada_projekt.adb magazyn.adb robot.adb | gnatmake ada_projekt magazyn robot
