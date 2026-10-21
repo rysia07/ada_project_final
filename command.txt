@@ -1,1 +1,1 @@
-gnatmake ada_projekt magazyn robot
+gnatmake ada_projekt magazyn robot stanowisko_rozl dostawy samochod
