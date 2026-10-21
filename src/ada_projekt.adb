@@ -3,6 +3,7 @@ use Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with magazyn;
 with robot;
+with zamowienia;
 
 
 procedure Ada_projekt is
@@ -13,6 +14,7 @@ procedure Ada_projekt is
    robot1 : robot.robot_type(1);
    robot2 : robot.robot_type(2);
    robot3 : robot.robot_type(3);
+   zamowienie: zamowienia.order_type;
 begin
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
    Jam_Type1 := Ada.Strings.Unbounded.To_Unbounded_String("Porzeczkowy");
@@ -21,6 +23,10 @@ begin
    robot3.TransferPackage(id => 2, amount => 10, jam_type => Jam_Type1);
    --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
    State := magazyn.Check_state;
+   zamowienia.new_order(zamowienie, 1, 1, Jam_Type);
+   zamowienia.order.Get(zamowienie);
+
+
    --     type Date is record
    --        Day : Integer range 1 .. 31;
    --        Year : Integer range 1 .. 3000 := 2032;
