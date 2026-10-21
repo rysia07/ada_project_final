@@ -9,10 +9,15 @@ package magazyn is
    package Int_List is new Ada.Containers.Doubly_Linked_Lists(Element_Type => Integer);
    package String_List is new Ada.Containers.Indefinite_Doubly_Linked_Lists(Element_Type => ASU.Unbounded_String);
    
-   procedure Take(id, amount: Integer; jam_type:ASU.Unbounded_String);
+ 
    function Check_state return Integer;
+   task centrala is
+      entry Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String);
+   end centrala;
+   
 
 private
+   max_occupancy: Integer := 100;
    occupancy: Integer := 0;
    id_list: Int_List.List;
    amount_list: Int_List.List;

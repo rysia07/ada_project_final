@@ -26,7 +26,7 @@ package body robot is
             end TransferPackage;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jedzie do magazynu");
             delay 3.0;
-            magazyn.Take(current_id, current_amount, current_jam_type);
+            magazyn.centrala.Take(current_id, current_amount, current_jam_type);
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
             stupid_state := magazyn.Check_state;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
