@@ -1,37 +1,36 @@
 with Ada.Strings.Unbounded;
 with Ada.Text_IO;
-with stanowisko_rozl; use stanowisko_rozl;
-with Dostawy;         use Dostawy;
+with stanowisko_rozl;
+with Dostawy; use Dostawy;
 
 package body samochod is
    task body samochod_type is
-      aktualna_dostawa    : Dostawa;
-      docelowe_stanowisko : stanowisko_rozl_ptr;
+      Aktualny_Ladunek : Dostawa;
    begin
       loop
          select
-            accept DeliverPackage(Nowa_Dostawa : in Dostawa; Stanowisko : in stanowisko_rozl_ptr) do
-               aktualna_dostawa    := Nowa_Dostawa;
-               docelowe_stanowisko := Stanowisko;
-               Ada.Text_IO.Put_Line("Samochód nr" & Integer'Image(ID) & 
-                  " przyjął dostawę o id" & Integer'Image(aktualna_dostawa.id) & 
-                  " z ilością " & Integer'Image(aktualna_dostawa.amount) & 
-                  " sztuk towaru " & Ada.Strings.Unbounded.To_String(aktualna_dostawa.jam_type));
+            accept DeliverPackage(Ladunek : in Dostawa) do
+               Aktualny_Ladunek := Ladunek;
+               Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & 
+                  "] Przyjął ładunek o ID" & Integer'Image(Aktualny_Ladunek.id) & 
+                  " (" & Integer'Image(Aktualny_Ladunek.amount) & " szt. " & 
+                  Ada.Strings.Unbounded.To_String(Aktualny_Ladunek.jam_type) & ")");
             end DeliverPackage;
 
             for i in 1 .. 3 loop
-               Ada.Text_IO.Put_Line("Samochód nr" & Integer'Image(ID) & " jedzie do stanowiska rozładunkowego");
+               Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Jedzie do stanowiska rozładunkowego...");
                delay 1.0;
             end loop;
 
-            Ada.Text_IO.Put_Line("Samochód nr" & Integer'Image(ID) & " dotarł do stanowiska");
-            docelowe_stanowisko.AcceptCargo(ID, aktualna_dostawa);
-            Ada.Text_IO.Put_Line("Samochód nr" & Integer'Image(ID) & " zakończył rozładunek towaru");
+            Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Dotarł pod stanowisko, czeka w kolejce na rozładunek.");
+            
+            stanowisko_rozl.Stanowisko.AcceptCargo(ID, Aktualny_Ladunek);
+            
+            Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Odjeżdża po rozładunku.");
          or
-            delay 3.0;
-            Ada.Text_IO.Put_Line("Samochód nr" & Integer'Image(ID) & " czeka na zadanie");
+            delay 4.0;
+            Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Czeka w bazie na zlecenie.");
          end select;
       end loop;
    end samochod_type;
-
 end samochod;

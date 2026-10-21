@@ -1,8 +1,7 @@
 with Dostawy; use Dostawy;
 
 package stanowisko_rozl is
-   task type stanowisko_rozl_type(ID: Integer) is
-      entry AcceptCargo(id_samochodu: Integer; ladunek: in Dostawa);
-   end stanowisko_rozl_type;
-   type stanowisko_rozl_ptr is access all stanowisko_rozl_type;
+   task Stanowisko is
+      entry AcceptCargo(id_samochodu : in Integer; Ladunek : in Dostawa);
+   end Stanowisko;
 end stanowisko_rozl;

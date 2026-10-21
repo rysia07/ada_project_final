@@ -3,29 +3,26 @@ with Ada.Strings.Unbounded;
 with Dostawy; use Dostawy;
 
 package body stanowisko_rozl is
-   task body stanowisko_rozl_type is
-      current_id : Integer;
-      current_amount : Integer;
-      current_jam_type: Ada.Strings.Unbounded.Unbounded_String;
+   task body Stanowisko is
+      Odebrany_Ladunek : Dostawa;
    begin
       loop
          select
-            accept AcceptCargo(id_samochodu: Integer; ladunek: in Dostawa) do
-               current_id := ladunek.id;
-               current_amount := ladunek.amount;
-               current_jam_type := ladunek.jam_type;
-               Ada.Text_IO.Put_Line("Stanowisko rozładunku nr" & Integer'Image(ID) &
-               "przyjęło samochód nr" & Integer'Image(id_samochodu) & 
-               " przyjęło" & Integer'Image(current_amount) & " sztuk towaru "
-               & Ada.Strings.Unbounded.To_String(current_jam_type));
+            accept AcceptCargo(id_samochodu : in Integer; Ladunek : in Dostawa) do
+               Odebrany_Ladunek := Ladunek;
+               Ada.Text_IO.Put_Line("[Stanowisko] Przyjęto samochód nr" & Integer'Image(id_samochodu) & 
+                  " (Dostawa ID:" & Integer'Image(Odebrany_Ladunek.id) & 
+                  ", ilość:" & Integer'Image(Odebrany_Ladunek.amount) & 
+                  ", towar: " & Ada.Strings.Unbounded.To_String(Odebrany_Ladunek.jam_type) & ")");
             end AcceptCargo;
-            Ada.Text_IO.Put_Line("Stanowisko rozładunku nr" & Integer'Image(ID) & " rozładowuje towar");
+
+            Ada.Text_IO.Put_Line("[Stanowisko] Trwa rozładunek towaru...");
             delay 3.0;
-            Ada.Text_IO.Put_Line("Stanowisko rozładunku nr" & Integer'Image(ID) & " zakończyło rozładunek towaru");
+            Ada.Text_IO.Put_Line("[Stanowisko] Zakończono rozładunek towaru.");
          or
-            delay 3.0;
-            Ada.Text_IO.Put_Line("Brak nowych dostaw w " & "stanowisku rozładunkowym nr" & Integer'Image(ID));
+            delay 5.0;
+            Ada.Text_IO.Put_Line("[Stanowisko] Brak nowych dostaw - oczekiwanie...");
          end select;
       end loop;
-   end stanowisko_rozl_type;
+   end Stanowisko;
 end stanowisko_rozl;

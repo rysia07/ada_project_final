@@ -15,12 +15,11 @@ procedure Ada_projekt is
    robot1 : robot.robot_type(1);
    robot2 : robot.robot_type(2);
    robot3 : robot.robot_type(3);
-   stanowisko1 : stanowisko_rozl.stanowisko_rozl_type(1);
    samochod1 : samochod_type(1);
-   Dostawa1 : Dostawa := (id => 1, amount => 40, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
+   Dostawa1 : Dostawa := (id => 1, amount => 2, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
 begin
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
-   samochod1.DeliverPackage(Dostawa1, stanowisko1);
+   samochod1.DeliverPackage(Dostawa1);
    robot1.TransferPackage(id => 1, amount => 40, jam_type => Jam_Type);
    robot2.TransferPackage(id => 2, amount => 69, jam_type => Jam_Type);
    --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
