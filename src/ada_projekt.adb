@@ -6,11 +6,13 @@ with robot;
 with stanowisko_rozl; use stanowisko_rozl;
 with Dostawy; use Dostawy;
 with samochod; use samochod;
+with zamowienia;
 
 
 procedure Ada_projekt is
    State : Integer;
    Jam_Type : Ada.Strings.Unbounded.Unbounded_String;
+   Jam_Type1 : Ada.Strings.Unbounded.Unbounded_String;
 
    robot1 : robot.robot_type(1);
    robot2 : robot.robot_type(2);
@@ -18,12 +20,19 @@ procedure Ada_projekt is
    samochod1 : samochod_type(1);
    Dostawa1 : Dostawa := (id => 1, amount => 2, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
 begin
+   zamowienie: zamowienia.order_type;
    Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
+   Jam_Type1 := Ada.Strings.Unbounded.To_Unbounded_String("Porzeczkowy");
    samochod1.DeliverPackage(Dostawa1);
-   robot1.TransferPackage(id => 1, amount => 40, jam_type => Jam_Type);
-   robot2.TransferPackage(id => 2, amount => 69, jam_type => Jam_Type);
+   robot1.TransferPackage(id => 1, amount => 10, jam_type => Jam_Type);
+   robot2.TransferPackage(id => 2, amount => 15, jam_type => Jam_Type);
+   robot3.TransferPackage(id => 2, amount => 10, jam_type => Jam_Type1);
    --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
    State := magazyn.Check_state;
+   zamowienia.new_order(zamowienie, 1, 1, Jam_Type);
+   zamowienia.order.Get(zamowienie);
+
+
    --     type Date is record
    --        Day : Integer range 1 .. 31;
    --        Year : Integer range 1 .. 3000 := 2032;
