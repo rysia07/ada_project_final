@@ -8,7 +8,7 @@ package body stanowisko_wysyl is
    begin
       loop
          select
-            accept AcceptPrzesylka(id_samochodu : in Integer; Ladunek : in Dostawa) do
+            accept AcceptPrzesylka(Ladunek : in Dostawa) do
                Odebrany_Ladunek := Ladunek;
                Ada.Text_IO.Put_Line("Przyjęto przesyłke od magazynu zawierającą: " & Integer'Image(Odebrany_Ladunek.amount) & " szt. " & Ada.Strings.Unbounded.To_String(Odebrany_Ladunek.jam_type));
             end AcceptPrzesylka;
