@@ -3,6 +3,8 @@ with Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with Ada.Containers.Doubly_Linked_Lists;
 with Ada.Containers.Indefinite_Doubly_Linked_Lists;
+with stanowisko_wysyl;
+with dostawy;
 
 package body magazyn is
    function Check_state return Integer is
@@ -20,16 +22,16 @@ package body magazyn is
       loop 
          select
             when occupancy < max_occupancy =>
-               accept Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer) do
-                  if occupancy + amount <= max_occupancy then
-                     id_list.Append(id);
+               accept Take (dostawa: Dostawy.Dostawa; success: out Boolean; jams_left: out Integer) do
+                  if occupancy + dostawa.amount <= max_occupancy then
+                     id_list.Append(dostawa.id);
                      
                      Is_Found := False;
                      Current_Idx := 1;
                      Target_Idx := 0;
                      
                      for C in type_list.Iterate loop
-                        if type_list(C) = jam_type then
+                        if type_list(C) = dostawa.jam_type then
                            Is_Found := True;
                            Target_Idx := Current_Idx;
                            exit; 
@@ -41,17 +43,17 @@ package body magazyn is
                         Current_Idx := 1;
                         for Amt_C in amount_list.Iterate loop
                            if Current_Idx = Target_Idx then
-                              amount_list.Replace_Element(Amt_C, amount_list(Amt_C) + amount);
+                              amount_list.Replace_Element(Amt_C, amount_list(Amt_C) + dostawa.amount);
                               exit;
                            end if;
                            Current_Idx := Current_Idx + 1;
                         end loop;
                      else
-                        amount_list.Append(amount);
-                        type_list.Append(jam_type);
+                        amount_list.Append(dostawa.amount);
+                        type_list.Append(dostawa.jam_type);
                      end if;
                            
-                     occupancy := occupancy + amount;
+                     occupancy := occupancy + dostawa.amount;
                      Ada.Text_IO.Put_Line("Przyjęto towar.");
                   else
                      Ada.Text_IO.Put_Line("Brak miejsca na całą dostawę!");
@@ -62,21 +64,21 @@ package body magazyn is
                
          or
             when occupancy >= max_occupancy =>
-               accept Full(amount : Integer; success: out Boolean; jams_left: out Integer) do
+               accept Full(dostawa: Dostawy.Dostawa; success: out Boolean; jams_left: out Integer) do
                   success := False;
-                  jams_left := amount;
+                  jams_left := dostawa.amount;
                   Ada.Text_IO.Put_Line("Magazyn pełny");
                end Full;
                
          or 
             when occupancy /= 0 =>
-               accept Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer) do
+               accept Give (dostawa: Dostawy.Dostawa; success: out Boolean; jams_left: out Integer) do
                      Is_Found := False;
                      Current_Idx := 1;
                      Target_Idx := 0;
 
                      for C in type_list.Iterate loop
-                        if type_list(C) = jam_type then
+                        if type_list(C) = dostawa.jam_type then
                            Is_Found := True;
                            Target_Idx := Current_Idx;
                            exit; 
@@ -88,10 +90,10 @@ package body magazyn is
                         Current_Idx := 1;
                         for Amt_C in amount_list.Iterate loop
                            if Current_Idx = Target_Idx then
-                              if amount_list(Amt_C) >= amount then
-                                   amount_list.Replace_Element(Amt_C, amount_list(Amt_C) - amount);
-                                   occupancy := occupancy - amount;
-                                   Ada.Text_IO.Put_Line("Zamówienie" & Integer'Image(id) & " wykonane");
+                              if amount_list(Amt_C) >= dostawa.amount then
+                                   amount_list.Replace_Element(Amt_C, amount_list(Amt_C) - dostawa.amount);
+                                    occupancy := occupancy - dostawa.amount;
+                                    stanowisko_wysyl.StanowiskoWysyl.AcceptPrzesylka(dostawa);
                                    declare
                                       Unused : Integer := Check_state;
                                    begin
@@ -100,7 +102,7 @@ package body magazyn is
                                    exit;
                               else 
                               Ada.Text_IO.Put_Line("Nie ma wystarczającej ilości w magazynie");
-                              jams_left := amount - amount_list(Amt_C);
+                              jams_left := dostawa.amount - amount_list(Amt_C);
                               success := False;
                               end if;
                            end if;
@@ -108,7 +110,7 @@ package body magazyn is
                         end loop;
                      else 
                      Ada.Text_IO.Put_Line("Nie ma danego towaru w magazynie");
-                     jams_left := amount;
+                     jams_left := dostawa.amount;
                      success := False;
                      end if;
                end Give;   

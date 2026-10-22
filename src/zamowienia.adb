@@ -7,9 +7,9 @@ package body zamowienia is
    
    procedure new_order (o: in out order_type; n, a: Integer; j_t: ASU.Unbounded_String) is
    begin
-      o.number := n;
-      o.amount := a;
-      o.jam_type := j_t;
+      o.dostawa.id := n;
+      o.dostawa.amount := a;
+      o.dostawa.jam_type := j_t;
    end new_order;
    
    task body order is
@@ -27,7 +27,7 @@ package body zamowienia is
                Current_Order := o;
             end Get;
             
-            Ada.Text_IO.Put_Line("Przetwarzanie zamówienia " & Integer'Image(Current_Order.number) & " na " & Integer'Image(Current_Order.amount) & " dżemów.");
+            Ada.Text_IO.Put_Line("Przetwarzanie zamówienia " & Integer'Image(Current_Order.dostawa.id) & " na " & Integer'Image(Current_Order.dostawa.amount) & " dżemów.");
             
             Is_Done := False;
             S := True;
@@ -35,9 +35,7 @@ package body zamowienia is
            
             while not Is_Done loop
                
-               magazyn.centrala.Give(id       => Current_Order.number, 
-                                     amount   => Current_Order.amount, 
-                                     jam_type => Current_Order.jam_type, 
+               magazyn.centrala.Give(Current_Order.dostawa,
                                      success  => S, 
                                      jams_left => Leftovers);
                
@@ -51,7 +49,7 @@ package body zamowienia is
                
             end loop;
             
-            Ada.Text_IO.Put_Line("Zamówienie " & Integer'Image(Current_Order.number) & " zrealizowane pomyślnie.");
+            Ada.Text_IO.Put_Line("Zamówienie " & Integer'Image(Current_Order.dostawa.id) & " zrealizowane pomyślnie.");
          or
             delay 0.1;
          end select;

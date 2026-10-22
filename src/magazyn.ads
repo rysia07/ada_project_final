@@ -1,6 +1,7 @@
 with Ada.Strings.Unbounded;
 with Ada.Containers.Doubly_Linked_Lists;
 with Ada.Containers.Indefinite_Doubly_Linked_Lists;
+with dostawy;
 
 package magazyn is
    package ASU renames Ada.Strings.Unbounded;
@@ -12,9 +13,9 @@ package magazyn is
  
    function Check_state return Integer;
    task centrala is
-      entry Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success : out Boolean; jams_left : out Integer);
-      entry Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer);
-      entry Full(amount: Integer; success: out Boolean; jams_left: out Integer);
+      entry Take (dostawa: Dostawy.Dostawa; success : out Boolean; jams_left : out Integer);
+      entry Give (dostawa:Dostawy.Dostawa; success: out Boolean; jams_left: out Integer);
+      entry Full(dostawa: Dostawy.Dostawa; success: out Boolean; jams_left: out Integer);
    end centrala;
    
 
