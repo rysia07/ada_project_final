@@ -12,9 +12,9 @@ package magazyn is
  
    function Check_state return Integer;
    task centrala is
-      entry Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String);
-      entry Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String);
-      entry Full;
+      entry Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success : out Boolean; jams_left : out Integer);
+      entry Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer);
+      entry Full(amount: Integer; success: out Boolean; jams_left: out Integer);
    end centrala;
    
 

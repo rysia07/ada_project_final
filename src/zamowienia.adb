@@ -13,19 +13,47 @@ package body zamowienia is
    end new_order;
    
    task body order is
+      Current_Order : order_type;
+
+      Leftovers: Integer;
+     
+      Is_Done: Boolean;
+      S: Boolean;
    begin
       loop
          select
-            accept Get(o: order_type) do
-               Ada.Text_IO.Put_Line("Wysłano zamówienie " & Integer'Image(o.number) & " na " & Integer'Image(o.amount) & " dżemów " & To_String(o.jam_type));
-               magazyn.centrala.Give(o.number, o.amount, o.jam_type); 
+            accept Get(o: in order_type) do
+               
+               Current_Order := o;
             end Get;
+            
+            Ada.Text_IO.Put_Line("Przetwarzanie zamówienia " & Integer'Image(Current_Order.number) & " na " & Integer'Image(Current_Order.amount) & " dżemów.");
+            
+            Is_Done := False;
+            S := True;
+            
+           
+            while not Is_Done loop
+               
+               magazyn.centrala.Give(id       => Current_Order.number, 
+                                     amount   => Current_Order.amount, 
+                                     jam_type => Current_Order.jam_type, 
+                                     success  => S, 
+                                     jams_left => Leftovers);
+               
+              
+               if S = True then
+                  Is_Done := True;
+               else
+                 
+                  delay 2.0;
+               end if;
+               
+            end loop;
+            
+            Ada.Text_IO.Put_Line("Zamówienie " & Integer'Image(Current_Order.number) & " zrealizowane pomyślnie.");
          or
-            accept Wait (o: order_type) do
-               Ada.Text_IO.Put_Line("Obsługa entry Wait");
-            end Wait;
-         else
-            delay 1.0;
+            delay 0.1;
          end select;
       end loop;
    end order;

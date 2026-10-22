@@ -20,7 +20,7 @@ package body magazyn is
       loop 
          select
             when occupancy < max_occupancy =>
-               accept Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String) do
+               accept Take (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer) do
                   if occupancy + amount <= max_occupancy then
                      id_list.Append(id);
                      
@@ -55,18 +55,22 @@ package body magazyn is
                      Ada.Text_IO.Put_Line("Przyjęto towar.");
                   else
                      Ada.Text_IO.Put_Line("Brak miejsca na całą dostawę!");
+                     jams_left := max_occupancy - occupancy;
+                     success := False;
                   end if;
                end Take;
                
          or
             when occupancy >= max_occupancy =>
-               accept Full do
+               accept Full(amount : Integer; success: out Boolean; jams_left: out Integer) do
+                  success := False;
+                  jams_left := amount;
                   Ada.Text_IO.Put_Line("Magazyn pełny");
                end Full;
                
          or 
             when occupancy /= 0 =>
-               accept Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String) do
+               accept Give (id: Integer; amount: Integer; jam_type: ASU.Unbounded_String; success: out Boolean; jams_left: out Integer) do
                      Is_Found := False;
                      Current_Idx := 1;
                      Target_Idx := 0;
@@ -95,13 +99,17 @@ package body magazyn is
                                    end;
                                    exit;
                               else 
-                                 Ada.Text_IO.Put_Line("Nie ma wystarczającej ilości w magazynie");
+                              Ada.Text_IO.Put_Line("Nie ma wystarczającej ilości w magazynie");
+                              jams_left := amount - amount_list(Amt_C);
+                              success := False;
                               end if;
                            end if;
                            Current_Idx := Current_Idx + 1;
                         end loop;
                      else 
-                        Ada.Text_IO.Put_Line("Nie ma danego towaru w magazynie");
+                     Ada.Text_IO.Put_Line("Nie ma danego towaru w magazynie");
+                     jams_left := amount;
+                     success := False;
                      end if;
                end Give;   
                     

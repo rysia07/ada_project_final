@@ -12,7 +12,11 @@ package body robot is
 
    current_id : Integer;
    current_amount : Integer;
-   current_jam_type: Ada.Strings.Unbounded.Unbounded_String;
+      current_jam_type: Ada.Strings.Unbounded.Unbounded_String;
+
+      --dodaje ci zmienne żeby się skompilowało ~Marysia
+      success : Boolean := True;
+      jam_left: Integer := 0;
 
    stupid_state : Integer;
    begin
@@ -26,7 +30,7 @@ package body robot is
             end TransferPackage;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jedzie do magazynu");
             delay 3.0;
-            magazyn.centrala.Take(current_id, current_amount, current_jam_type);
+            magazyn.centrala.Take(current_id, current_amount, current_jam_type, success, jam_left);
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
             stupid_state := magazyn.Check_state;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
