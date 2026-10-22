@@ -24,7 +24,7 @@ package body samochod is
 
             Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Dotarł pod stanowisko, czeka w kolejce na rozładunek.");
             
-            stanowisko_rozl.Stanowisko.AcceptCargo(ID, Aktualny_Ladunek);
+            stanowisko_rozl.StanowiskoRozl.AcceptCargo(ID, Aktualny_Ladunek);
             
             Ada.Text_IO.Put_Line("[Samochód" & Integer'Image(ID) & "] Odjeżdża po rozładunku.");
          or
