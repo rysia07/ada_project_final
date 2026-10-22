@@ -3,7 +3,7 @@ with Ada.Strings.Unbounded;
 with Dostawy; use Dostawy;
 
 package body stanowisko_rozl is
-   task body Stanowisko is
+   task body StanowiskoRozl is
       Odebrany_Ladunek : Dostawa;
    begin
       loop
@@ -24,5 +24,5 @@ package body stanowisko_rozl is
             Ada.Text_IO.Put_Line("[Stanowisko] Brak nowych dostaw - oczekiwanie...");
          end select;
       end loop;
-   end Stanowisko;
+   end StanowiskoRozl;
 end stanowisko_rozl;

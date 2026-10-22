@@ -1,7 +1,7 @@
 with Dostawy; use Dostawy;
 
 package stanowisko_rozl is
-   task Stanowisko is
+   task StanowiskoRozl is
       entry AcceptCargo(id_samochodu : in Integer; Ladunek : in Dostawa);
-   end Stanowisko;
+   end StanowiskoRozl;
 end stanowisko_rozl;
