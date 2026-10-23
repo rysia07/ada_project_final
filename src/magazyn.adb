@@ -55,6 +55,8 @@ package body magazyn is
                            
                      occupancy := occupancy + dostawa.amount;
                      Ada.Text_IO.Put_Line("Przyjęto towar.");
+                     jams_left := 0;
+                     success := True;
                   else
                      Ada.Text_IO.Put_Line("Brak miejsca na całą dostawę!");
                      jams_left := max_occupancy - occupancy;
