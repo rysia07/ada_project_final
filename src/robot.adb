@@ -13,6 +13,7 @@ package body robot is
    current_id : Integer;
    current_amount : Integer;
       current_jam_type: Ada.Strings.Unbounded.Unbounded_String;
+      current_dostawa: Dostawy.Dostawa;
 
       --dodaje ci zmienne żeby się skompilowało ~Marysia
       success : Boolean := True;
@@ -22,15 +23,13 @@ package body robot is
    begin
       loop
          select
-            accept TransferPackage(id: Integer; amount: Integer; jam_type: Ada.Strings.Unbounded.Unbounded_String) do
-               current_id := id;
-               current_amount := amount;
-               current_jam_type := jam_type;
-               Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " przyjął" & Integer'Image(amount) & " sztuk towaru " & Ada.Strings.Unbounded.To_String(jam_type));
+            accept TransferPackage(dostawa: Dostawy.Dostawa) do
+               current_dostawa := dostawa;
+               Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " przyjął" & Integer'Image(current_dostawa.amount) & " sztuk towaru " & Ada.Strings.Unbounded.To_String(current_dostawa.jam_type));
             end TransferPackage;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jedzie do magazynu");
             delay 3.0;
-            --magazyn.centrala.Take(current_id, current_amount, current_jam_type, success, jam_left);
+            --magazyn.centrala.Take(current_dostawa, success, jam_left);
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
             stupid_state := magazyn.Check_state;
             Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
