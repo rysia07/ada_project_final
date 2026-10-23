@@ -7,6 +7,7 @@ with stanowisko_rozl; use stanowisko_rozl;
 with Dostawy; use Dostawy;
 with samochod; use samochod;
 with zamowienia;
+with ladowarka; 
 
 
 procedure Ada_projekt is
@@ -16,7 +17,9 @@ procedure Ada_projekt is
 
    robot1 : robot.robot_type(1);
    robot2 : robot.robot_type(2);
-   robot3 : robot.robot_type(3);
+   robot3: robot.robot_type(3);
+   robot4 : robot.robot_type(4);
+   robot5 : robot.robot_type(5);
    samochod1 : samochod_type(1);
    Dostawa1 : Dostawa := (id => 1, amount => 2, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
    Dostawa2 : Dostawa := (id => 1, amount => 2, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
@@ -30,42 +33,14 @@ begin
    Jam_Type1 := Ada.Strings.Unbounded.To_Unbounded_String("Porzeczkowy");
    samochod1.DeliverPackage(Dostawa1);
    robot1.TransferPackage(Dostawa1);
-   robot2.TransferPackage(DOstawa2);
+   robot2.TransferPackage(Dostawa2);
    robot3.TransferPackage(Dostawa3);
+   robot1.TransferPackage(Dostawa1);
+   robot1.TransferPackage(Dostawa1);
+   robot1.TransferPackage(Dostawa1);
    robot1.TransferPackage(Dostawa1);
    --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
    State := magazyn.Check_state;
    zamowienia.new_order(zamowienie, 1, 100, Jam_Type);
    zamowienia.order.Get(zamowienie);
-
-
-   --     type Date is record
-   --        Day : Integer range 1 .. 31;
-   --        Year : Integer range 1 .. 3000 := 2032;
-   --     end record;
-   --     Meow : Integer := 5;
-   --     Test : Date;
-   --
-   --     task type Robot_Type;
-   --     task body Robot_Type is
-   --     begin
-   --
-   --     for I in 1 .. 5 loop
-   --        Put_Line("Robot pracuje");
-   --        delay 1.0;
-   --     end loop;
-   --
-   --     end Robot_Type;
-   --
-   --     Hau : Robot_Type;
-   --  begin
-   --     Test.Day := 20;
-   --     Meow := 6;
-   --     if Meow = 5 then
-   --        Put_Line("Kij ci w oko");
-   --     else
-   --        Put_Line("Hello Ada!" & Integer'Image(Meow));
-   --     end if;
-   --     Put_Line(Integer'Image(Test.Day) & Integer'Image(Test.Year));
-
 end Ada_projekt;
