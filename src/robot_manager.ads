@@ -1,7 +1,8 @@
 with robot;
+with Dostawy;
 
 package robot_manager is
    task robot_manager is
-      entry get_free_robot(free_robot: out robot.robot_type);
+      entry TransferPackage(dostawa: Dostawy.Dostawa);
    end robot_manager;
 end robot_manager;

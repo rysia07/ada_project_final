@@ -37,6 +37,10 @@ package body robot is
             end if;
          end if;
          select
+            accept can_transfer(ready : out Boolean) do
+               ready := is_ready(20) and is_at_work = False;
+            end can_transfer;
+         or
             when battery > 20 and jam_left = 0 =>
                accept TransferPackage(dostawa: Dostawy.Dostawa) do
                   current_dostawa := dostawa;
