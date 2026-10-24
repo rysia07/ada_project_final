@@ -2,8 +2,19 @@ with Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with ladowarka;
 with magazyn;
+with robot_manager;
 
 package body robot is
+   function GetRobotIsReady(ID : Integer) return Boolean is
+   begin
+      return is_robot_ready(ID);
+   end GetRobotIsReady;
+   function SetRobotIsReady(ID: Integer; value: Boolean) return Boolean is
+   begin
+      is_robot_ready(ID) := value;
+      return True;
+   end SetRobotIsReady;
+
    task body robot_type is
 
    battery: Integer := 100;
@@ -21,7 +32,7 @@ package body robot is
    begin
       loop
          if is_ready(20) = False then
-            ladowarka.ladowarka.ChargeRobot(can_charge);
+            ladowarka.ladowarka.ChargeRobot(can_charge, ID);
             if can_charge = False then
                recharging := False;
                Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " czeka na ładowanie");
@@ -54,6 +65,7 @@ package body robot is
                if success then
                   is_at_work := False;
                   Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
+                  is_robot_ready(ID) := True;
                   if battery > 0 then
                      Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " jest ponownie wolny");
                   end if;
@@ -71,6 +83,7 @@ package body robot is
                   if success then
                      Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " dostarczył towar do magazynu");
                      is_at_work := True;
+                     is_robot_ready(ID) := True;
                   else
                      Ada.Text_IO.Put_Line("Robot nr" & Integer'Image(ID) & " znowu nie mógł dostarczyć całego towaru");
                      current_dostawa.amount := jam_left;

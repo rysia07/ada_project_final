@@ -1,6 +1,7 @@
 with Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with Dostawy; use Dostawy;
+with robot_manager;
 
 package body stanowisko_rozl is
    task body StanowiskoRozl is
@@ -19,6 +20,7 @@ package body stanowisko_rozl is
             Ada.Text_IO.Put_Line("[Stanowisko Rozładunkowe] Trwa rozładunek towaru...");
             delay 3.0;
             Ada.Text_IO.Put_Line("[Stanowisko Rozładunkowe] Zakończono rozładunek towaru.");
+            robot_manager.robot_manager.TransferPackage(Odebrany_Ladunek);
          or
             delay 5.0;
             Ada.Text_IO.Put_Line("[Stanowisko Rozładunkowe] Brak nowych dostaw - oczekiwanie...");
