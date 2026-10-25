@@ -33,6 +33,7 @@ procedure Ada_projekt is
    OD : Float;
    jam_type : float;
    amount : Integer;
+   random_time : Duration;
 begin
    Ada.Numerics.Float_Random.Reset(Gen);
    
@@ -74,8 +75,10 @@ begin
          zamowienia.new_order(zamowienie, Action_count, amount, Dostawa1.jam_type);
          zamowienia.order.Get(zamowienie);
       end if; 
-   
+
       Action_count := Action_count - 1;
+      random_time := Duration(Ada.Numerics.Float_Random.Random(Gen)) * 100.0;
+      delay random_time;
    end loop;
    
    State := magazyn.Check_state;

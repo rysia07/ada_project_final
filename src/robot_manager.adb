@@ -18,27 +18,29 @@ package body robot_manager is
          select
             accept TransferPackage(dostawa: Dostawy.Dostawa) do
                current_dostawa := dostawa;
-               Ada.Text_IO.Put_Line("Accepting a package");
             end TransferPackage;
-
+            
             charged_robot_id := ladowarka.GetChargedRobotID;
-            if robot.GetRobotIsReady(1) = True and charged_robot_id /= 1 then
-               robot1.TransferPackage(current_dostawa);
-               temp_ready := robot.SetRobotIsReady(1, False);
-            elsif robot.GetRobotIsReady(2) = True and charged_robot_id /= 2 then
-               robot2.TransferPackage(current_dostawa);
-               temp_ready := robot.SetRobotIsReady(2, False);
-            elsif robot.GetRobotIsReady(3) = True and charged_robot_id /= 3 then
-               robot3.TransferPackage(current_dostawa);
-               temp_ready := robot.SetRobotIsReady(3, False);
-            elsif robot.GetRobotIsReady(4) = True and charged_robot_id /= 4 then
-               robot4.TransferPackage(current_dostawa);
-               temp_ready := robot.SetRobotIsReady(4, False);
-            elsif robot.GetRobotIsReady(5) = True and charged_robot_id /= 5 then
-               robot5.TransferPackage(current_dostawa);
-               temp_ready := robot.SetRobotIsReady(5, False);
-            end if;
-            end select;
+            temp_ready := True;
+            while temp_ready = True loop
+               if robot.GetRobotIsReady(1) = True and charged_robot_id /= 1 then
+                  robot1.TransferPackage(current_dostawa);
+                  temp_ready := robot.SetRobotIsReady(1, False);
+               elsif robot.GetRobotIsReady(2) = True and charged_robot_id /= 2 then
+                  robot2.TransferPackage(current_dostawa);
+                  temp_ready := robot.SetRobotIsReady(2, False);
+               elsif robot.GetRobotIsReady(3) = True and charged_robot_id /= 3 then
+                  robot3.TransferPackage(current_dostawa);
+                  temp_ready := robot.SetRobotIsReady(3, False);
+               elsif robot.GetRobotIsReady(4) = True and charged_robot_id /= 4 then
+                  robot4.TransferPackage(current_dostawa);
+                  temp_ready := robot.SetRobotIsReady(4, False);
+               elsif robot.GetRobotIsReady(5) = True and charged_robot_id /= 5 then
+                  robot5.TransferPackage(current_dostawa);
+                  temp_ready := robot.SetRobotIsReady(5, False);
+               end if;
+            end loop;
+         end select;
       end loop;
    end robot_manager;
 end robot_manager;

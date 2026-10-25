@@ -21,7 +21,7 @@ package body magazyn is
    begin 
       loop 
          select
-            when occupancy < max_occupancy =>
+            when occupancy <= max_occupancy =>
                accept Take (dostawa: Dostawy.Dostawa; success: out Boolean; jams_left: out Integer) do
                   if occupancy + dostawa.amount <= max_occupancy then
                      id_list.Append(dostawa.id);
@@ -52,7 +52,7 @@ package body magazyn is
                         amount_list.Append(dostawa.amount);
                         type_list.Append(dostawa.jam_type);
                      end if;
-                           
+                     
                      occupancy := occupancy + dostawa.amount;
                      Ada.Text_IO.Put_Line("Przyjęto towar.");
                      jams_left := 0;

@@ -20,7 +20,7 @@ package magazyn is
    
 
 private
-   max_occupancy: Integer := 100;
+   max_occupancy: Integer := 1000;
    occupancy: Integer := 0;
    id_list: Int_List.List;
    amount_list: Int_List.List;
