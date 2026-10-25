@@ -27,7 +27,7 @@ package body zamowienia is
                Current_Order := o;
             end Get;
             
-            Ada.Text_IO.Put_Line("Przetwarzanie zamówienia " & Integer'Image(Current_Order.dostawa.id) & " na " & Integer'Image(Current_Order.dostawa.amount) & " dżemów.");
+            Ada.Text_IO.Put_Line("Przetwarzanie zamówienia " & Integer'Image(Current_Order.dostawa.id) & " na " & Integer'Image(Current_Order.dostawa.amount) & " dżemów." );
             
             Is_Done := False;
             S := True;

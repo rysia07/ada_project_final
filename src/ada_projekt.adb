@@ -9,12 +9,15 @@ with Dostawy; use Dostawy;
 with samochod; use samochod;
 with zamowienia;
 with ladowarka; 
-
+with Ada.Numerics.Float_Random;
 
 procedure Ada_projekt is
+   Action_count : Integer := 4;
    State : Integer;
-   Jam_Type : Ada.Strings.Unbounded.Unbounded_String;
+   Jam_Type_Str : Ada.Strings.Unbounded.Unbounded_String; -- Zmiana nazwy ze względu na konflikt
    Jam_Type1 : Ada.Strings.Unbounded.Unbounded_String;
+   Jam_Type2 : Ada.Strings.Unbounded.Unbounded_String;
+   Jam_Type3 : Ada.Strings.Unbounded.Unbounded_String;
 
    samochod1 : samochod_type(1);
    samochod2 : samochod_type(2);
@@ -22,30 +25,59 @@ procedure Ada_projekt is
    samochod4 : samochod_type(4);
    samochod5 : samochod_type(5);
    samochod6 : samochod_type(6);
-   Dostawa1 : Dostawa := (id => 1, amount => 51, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
-   Dostawa2 : Dostawa := (id => 1, amount => 51, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
-   Dostawa3 : Dostawa := (id => 1, amount => 51, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
-   Dostawa4 : Dostawa := (id => 1, amount => 51, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
-   Dostawa5 : Dostawa := (id => 1, amount => 51, jam_type => Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy"));
+   Dostawa1 : Dostawa;
+ 
    zamowienie: zamowienia.order_type;
+   
+   Gen: Ada.Numerics.Float_Random.Generator;
+   OD : Float;
+   jam_type : float;
+   amount : Integer;
 begin
-
-   Jam_Type := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
+   Ada.Numerics.Float_Random.Reset(Gen);
+   
+   Jam_Type_Str := Ada.Strings.Unbounded.To_Unbounded_String("Truskawkowy");
    Jam_Type1 := Ada.Strings.Unbounded.To_Unbounded_String("Porzeczkowy");
-   samochod1.DeliverPackage(Dostawa1);
-   samochod2.DeliverPackage(Dostawa1);
-   samochod3.DeliverPackage(Dostawa1);
-   samochod4.DeliverPackage(Dostawa1);
-   samochod5.DeliverPackage(Dostawa1);
-   samochod6.DeliverPackage(Dostawa1);
-   --  robot_manager.robot_manager.TransferPackage(Dostawa1);
-   --  robot_manager.robot_manager.TransferPackage(Dostawa1);
-   --  robot_manager.robot_manager.TransferPackage(Dostawa1);
-   --  robot_manager.robot_manager.TransferPackage(Dostawa1);
-   --  robot_manager.robot_manager.TransferPackage(Dostawa1);
-   --  magazyn.Take(id => 1, amount => 10, jam_type => Jam_Type);
+   Jam_Type2 := Ada.Strings.Unbounded.To_Unbounded_String("Malinowy");
+   Jam_Type3 := Ada.Strings.Unbounded.To_Unbounded_String("Brzoskwiniowy");
+
+   while Action_count /= 0 loop
+      OD := Ada.Numerics.Float_Random.Random(Gen);
+      jam_type := Ada.Numerics.Float_Random.Random(Gen);
+      amount :=  Integer(Ada.Numerics.Float_Random.Random(Gen) * 100.0);
+      Dostawa1.amount := amount;
+
+      if jam_type <= 0.25 then
+         Dostawa1.jam_type := Jam_Type_Str;
+      elsif jam_type <= 0.5 then
+         Dostawa1.jam_type := Jam_Type1;
+      elsif jam_type <= 0.75 then
+         Dostawa1.jam_type := Jam_Type2;
+      else
+         Dostawa1.jam_type := Jam_Type3;
+      end if;
+         samochod1.DeliverPackage(Dostawa1);
+         samochod2.DeliverPackage(Dostawa1);
+         samochod3.DeliverPackage(Dostawa1);
+         samochod4.DeliverPackage(Dostawa1);
+         samochod5.DeliverPackage(Dostawa1);
+         samochod6.DeliverPackage(Dostawa1);
+
+      if OD <= 0.5 then 
+         samochod1.DeliverPackage(Dostawa1);
+         samochod2.DeliverPackage(Dostawa1);
+         samochod3.DeliverPackage(Dostawa1);
+         samochod4.DeliverPackage(Dostawa1);
+         samochod5.DeliverPackage(Dostawa1);
+         samochod6.DeliverPackage(Dostawa1);
+      else 
+         zamowienia.new_order(zamowienie, Action_count, amount, Dostawa1.jam_type);
+         zamowienia.order.Get(zamowienie);
+      end if; 
+   
+      Action_count := Action_count - 1;
+   end loop;
+   
    State := magazyn.Check_state;
-   zamowienia.new_order(zamowienie, 1, 100, Jam_Type);
-   zamowienia.order.Get(zamowienie);
-   zamowienia.order.Get(zamowienie);
+   
 end Ada_projekt;
